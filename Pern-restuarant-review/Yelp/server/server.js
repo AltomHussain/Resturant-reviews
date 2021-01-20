@@ -14,7 +14,7 @@ app.use((req, res, next) => {
 app.use(morgan("dev"));
 
 //retrieve
-app.get("/restaurants", async (req, res) => {
+app.get("/api/restaurants", async (req, res) => {
   try {
     const results = await db.query("select  * from restaurants");
     res.status(200).json({
@@ -30,7 +30,7 @@ app.get("/restaurants", async (req, res) => {
 });
 
 //retrieve one restaurant
-app.get("/restaurants/:id", async (req, res) => {
+app.get("/api/restaurants/:id", async (req, res) => {
   const { id } = req.params;
   try {
     const results = await db.query("select * from restaurants where id= $1", [
@@ -55,7 +55,7 @@ app.get("/restaurants/:id", async (req, res) => {
 });
 
 //create
-app.post("/restaurants", async (req, res) => {
+app.post("/api/restaurants", async (req, res) => {
   try {
     const { name, location, price_range } = req.body;
     const results = await db.query(
@@ -78,7 +78,7 @@ app.post("/restaurants", async (req, res) => {
 });
 
 //update
-app.put("/restaurants/:id", async(req, res) => {
+app.put("/api/restaurants/:id", async(req, res) => {
   const { id } = req.params;
   const { name, location, price_range } = req.body;
   try {
@@ -100,7 +100,7 @@ app.put("/restaurants/:id", async(req, res) => {
 });
 
 //delete
-app.delete("/restaurants/:id", async(req, res) => {
+app.delete("/api/restaurants/:id", async(req, res) => {
   const { id } = req.params;
   console.log(id);
   const results = await db.query("delete from restaurants where id=$1 returning *", [id]);

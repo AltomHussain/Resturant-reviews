@@ -1,6 +1,16 @@
-import React from 'react'
+import React, {useEffect} from 'react'
+import RestaurantFinder from "../apis/RestaurantFinder"
 
 export default function RestaurantList() {
+
+useEffect(()=>{
+try {
+  RestaurantFinder.get("/")
+} catch (error) {
+  console.log(error.message);
+}
+}, [])
+
     return (
         <div className="list-group">
             <table class="table table-hover table-dark">
