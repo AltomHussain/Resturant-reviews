@@ -1,8 +1,10 @@
 const express = require("express");
+const cors = require("cors")
 const morgan = require("morgan");
 const db = require("./db");
 require("dotenv").config();
 const app = express();
+app.use(cors())
 //req.body
 app.use(express.json());
 //this is a midleware
@@ -21,7 +23,7 @@ app.get("/api/restaurants", async (req, res) => {
       status: "success",
       total: results.rows.length,
       data: {
-        restaurant: results.rows,
+        restaurants: results.rows,
       },
     });
   } catch (error) {

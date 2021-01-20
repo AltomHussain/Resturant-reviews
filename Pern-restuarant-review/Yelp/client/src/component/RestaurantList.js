@@ -1,14 +1,20 @@
-import React, {useEffect} from 'react'
+import React, {useContext, useEffect} from 'react'
 import RestaurantFinder from "../apis/RestaurantFinder"
+import { RestaurantContext } from '../contentex/RestaurantContext';
 
-export default function RestaurantList() {
-
-useEffect(()=>{
+export default function RestaurantList(props) {
+const {restaurants, setRestaurants}= useContext(RestaurantContext )
+useEffect( ()=>{
+ async function fetchData (){
 try {
-  RestaurantFinder.get("/")
+ const res = await RestaurantFinder.get("/");
+ setRestaurants(res.data.data.restaurants)
+ console.log(restaurants);
 } catch (error) {
   console.log(error.message);
 }
+ }
+fetchData()
 }, [])
 
     return (
