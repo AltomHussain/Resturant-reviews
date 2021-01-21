@@ -19,7 +19,7 @@ export default function RestaurantList(props) {
 
   return (
     <div className="list-group">
-      <table class="table table-hover table-dark">
+      <table className="table table-hover table-dark">
         <thead>
           <tr className="bg-primary">
             <th scope="col">Restaurant</th>
