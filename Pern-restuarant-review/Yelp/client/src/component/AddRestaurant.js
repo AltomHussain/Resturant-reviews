@@ -16,8 +16,11 @@ export default function AddRestaurant() {
              location,
             price_range: priceRange
           })
-       addRestaurant(res.data.data.restaurants)
-          console.log(res.data.data.restaurants);
+       addRestaurant(res.data.data.restaurants);
+       setName("");
+       setLocation("");
+       setPriceRange("Price Range");
+    
       } catch (error) {
           console.log(error.message);
       }
