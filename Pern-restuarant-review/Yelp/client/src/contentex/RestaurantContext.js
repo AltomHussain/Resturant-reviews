@@ -8,7 +8,7 @@ export const RestaurantContextProvider = props =>{
             {props.children}
         </RestaurantContext.Provider>
     )
-} 
+}  
 
 
    
