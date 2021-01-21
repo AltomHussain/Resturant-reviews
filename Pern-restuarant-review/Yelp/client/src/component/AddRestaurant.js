@@ -1,12 +1,31 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import RestaurantFinder from "../apis/RestaurantFinder"
+import { RestaurantContext } from "../contentex/RestaurantContext";
 
 export default function AddRestaurant() {
   const [name, setName] = useState("");
   const [location, setLocation] = useState("");
   const [priceRange, setPriceRange] = useState("Price Range");
+  const {addRestaurant}  = useContext(RestaurantContext)
+
+  const handleSubmit = async(e)=>{
+      e.preventDefault();
+      try {
+      const res = await RestaurantFinder.post("/", {
+             name,
+             location,
+            price_range: priceRange
+          })
+       addRestaurant(res.data.data.restaurants)
+          console.log(res.data.data.restaurants);
+      } catch (error) {
+          console.log(error.message);
+      }
+
+  }
   return (
     <div className="mb-b">
-      <form action="">
+      <form action=""  onSubmit={handleSubmit}>
         <div className="form-row">
           <div className="col">
             <input type="text" placeholder="name" className="form-control" value={name} onChange={(e)=>setName(e.target.value)} />
@@ -31,7 +50,7 @@ export default function AddRestaurant() {
               <option value="5">$$$$$</option>
             </select>
           </div>
-          <button className="btn btn-primary">Add</button>
+          <button className="btn btn-primary" >Add</button>
         </div>
       </form>
     </div>
