@@ -1,8 +1,9 @@
 import React, { useContext, useEffect } from "react";
 import RestaurantFinder from "../apis/RestaurantFinder";
 import { RestaurantContext } from "../contentex/RestaurantContext";
-
+import {useHistory} from "react-router-dom"
 export default function RestaurantList(props) {
+  let history = useHistory()
   const { restaurants, setRestaurants } = useContext(RestaurantContext);
   useEffect(() => {
     async function fetchData() {
@@ -17,6 +18,10 @@ export default function RestaurantList(props) {
     fetchData();
   }, []);
 
+  const handleUpdate = (id)=>{
+    //it does push you to the page instead of using Link
+history.push(`/restaurants/${id}/update`)
+  }
   return (
     <div className="list-group">
       <table className="table table-hover table-dark">
@@ -39,7 +44,7 @@ export default function RestaurantList(props) {
                 <td>{"$".repeat(price_range)}</td>
                 <td>Review</td>
                 <td>
-                  <button className="btn btn-warning">Edit</button>{" "}
+                  <button className="btn btn-warning" onClick={()=> handleUpdate(id)}>Update</button>{" "}
                 </td>
                 <td>
                   <button className="btn btn-danger">Delete</button>{" "}
