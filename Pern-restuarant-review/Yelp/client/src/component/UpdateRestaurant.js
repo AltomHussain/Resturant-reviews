@@ -1,10 +1,9 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import RestaurantFinder from "../apis/RestaurantFinder";
-import { RestaurantContext } from "../contentex/RestaurantContext";
 //Where ever you use the useContext you to bring RestaurantContex with used createContex
 export default function UpdateRestaurant(props) {
-    const {restaurants}= useContext(RestaurantContext) 
+   
     let history = useHistory()
   const { id } = useParams();
   const [name, setName] = useState("")
@@ -30,7 +29,7 @@ export default function UpdateRestaurant(props) {
     const handleUpdate = async(e)=>{
         e.preventDefault();
     try {
-    const UpdateRestaurant = await RestaurantFinder.put(`/${id}/update`,{
+   await RestaurantFinder.put(`/${id}/update`,{
         name,
         location,
          price_range: priceRange
