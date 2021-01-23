@@ -1,38 +1,45 @@
 import React, { useContext, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import RestaurantFinder from "../apis/RestaurantFinder";
 import { RestaurantContext } from "../contentex/RestaurantContext";
 //Where ever you use the useContext you to bring RestaurantContex with used createContex
 export default function UpdateRestaurant(props) {
     const {restaurants}= useContext(RestaurantContext) 
+    let history = useHistory()
   const { id } = useParams();
   const [name, setName] = useState("")
   const [location, setLocation] = useState("");
   const [priceRange, setPriceRange] = useState("")
-const handleUpdate = async()=>{
-try {
+  
+  //get one restaurant by id and put them into the input fields so you can update them
+  useEffect(()=>{
+      const fetchData = async()=>{
+          try {
+              const res = await RestaurantFinder.get(`/${id}`);
+              console.log(res.data.data.restaurants);
+              setName(res.data.data.restaurants.name)
+              setLocation(res.data.data.restaurants.location)
+              setPriceRange(res.data.data.restaurants.price_range)
+            } catch (error) {
+                console.log(error.message);
+            }
+        }
+        fetchData()
+    }, [])
 
-    
-} catch (error) {
-    console.log(error.message);
-}
-}
-
-
-useEffect(()=>{
-  const fetchData = async()=>{
-      try {
-          const res = await RestaurantFinder.get(`/${id}`);
-          console.log(res.data.data.restaurants);
-          setName(res.data.data.restaurants.name)
-          setLocation(res.data.data.restaurants.location)
-          setPriceRange(res.data.data.restaurants.price_range)
-      } catch (error) {
-          console.log(error.message);
-      }
-  }
-  fetchData()
-}, [])
+    const handleUpdate = async(e)=>{
+        e.preventDefault();
+    try {
+    const UpdateRestaurant = await RestaurantFinder.put(`/${id}/update`,{
+        name,
+        location,
+         price_range: priceRange
+    });
+    history.push(("/"))      
+    } catch (error) {
+        console.log(error.message);
+    }
+    }
   return (
     <div>
       <h1 className="text-center">Update Restaurant</h1>
