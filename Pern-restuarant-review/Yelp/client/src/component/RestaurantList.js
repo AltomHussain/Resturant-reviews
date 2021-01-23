@@ -16,6 +16,15 @@ export default function RestaurantList(props) {
     }
     fetchData();
   }, []);
+  //delete restaurant function 
+  const handleDelete = async(id) => {
+   try {
+    await RestaurantFinder.delete(`/${id}`);
+     setRestaurants(restaurants.filter(restaurant => restaurant.id !== id))
+   } catch (error) {
+     console.log(error.message);
+   }
+  };
 
   const handleUpdate = (id)=>{
     //it does push you to the page instead of using Link
@@ -35,6 +44,7 @@ history.push(`/restaurants/${id}/update`)
           </tr>
         </thead>
         <tbody>
+
           {restaurants && restaurants.map(({ name, location, price_range,id  }) => {
             return (
               <tr key={id}>
@@ -51,6 +61,7 @@ history.push(`/restaurants/${id}/update`)
               </tr>
             );
           })}
+
         </tbody>
       </table>
     </div>
