@@ -19,6 +19,7 @@ export default function RestaurantList(props) {
   //delete restaurant function 
   const handleDelete = async(id) => {
    try {
+     alert("Are you sure you want delete this item?")
     await RestaurantFinder.delete(`/${id}`);
      setRestaurants(restaurants.filter(restaurant => restaurant.id !== id))
    } catch (error) {
