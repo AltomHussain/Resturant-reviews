@@ -56,7 +56,7 @@ history.push(`/restaurants/${id}/update`)
                   <button className="btn btn-warning" onClick={()=> handleUpdate(id)}>Update</button>{" "}
                 </td>
                 <td>
-                  <button className="btn btn-danger">Delete</button>{" "}
+                  <button className="btn btn-danger" onClick={()=>handleDelete(id)}>Delete</button>{" "}
                 </td>
               </tr>
             );
