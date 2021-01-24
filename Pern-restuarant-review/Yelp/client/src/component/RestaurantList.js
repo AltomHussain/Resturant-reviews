@@ -17,7 +17,9 @@ export default function RestaurantList(props) {
     fetchData();
   }, []);
   //delete restaurant function 
-  const handleDelete = async(id) => {
+  const handleDelete = async(e, id) => {
+    //This line will stop clicking the whole line and focus on just delete btn
+    e.stopPropagation()
    try {
     const result = prompt("Are you sure you want delete this item?");
 if(result ==="Yes"){
@@ -32,15 +34,19 @@ console.log("no");
    }
   };
 
-  const handleUpdate = (id)=>{
+  const handleUpdate = (e, id)=>{
+    e.stopPropagation()
     //it does push you to the page instead of using Link
 history.push(`/restaurants/${id}/update`)
+  }
+  const handleRestaurantSelect =(id)=>{
+    history.push(`/restaurants/${id}`)
   }
   return (
     <div className="list-group">
       <table className="table table-hover table-dark">
         <thead>
-          <tr className="bg-primary">
+          <tr className="bg-primary" >
             <th scope="col">Restaurant</th>
             <th scope="col">Location</th>
             <th scope="col">Price Range</th>
@@ -53,16 +59,16 @@ history.push(`/restaurants/${id}/update`)
 
           {restaurants && restaurants.map(({ name, location, price_range,id  }) => {
             return (
-              <tr key={id}>
+              <tr key={id} onClick={()=> handleRestaurantSelect(id)}>
                 <td>{name}</td>
                 <td>{location}</td>
                 <td>{"$".repeat(price_range)}</td>
                 <td>Review</td>
                 <td>
-                  <button className="btn btn-warning" onClick={()=> handleUpdate(id)}>Update</button>{" "}
+                  <button className="btn btn-warning" onClick={(e)=> handleUpdate( e,id)}>Update</button>{" "}
                 </td>
                 <td>
-                  <button className="btn btn-danger" onClick={()=>handleDelete(id)}>Delete</button>{" "}
+                  <button className="btn btn-danger" onClick={(e)=>handleDelete(e,id)}>Delete</button>{" "}
                 </td>
               </tr>
             );
