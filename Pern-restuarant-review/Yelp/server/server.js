@@ -68,7 +68,10 @@ app.post("/api/restaurants", async (req, res) => {
        res.status(201).json({
       status: "success",
       total: results.rows.length,
-      data: "your data has been inserted successfully",
+      data: {
+        restaurants: results.rows[0],
+      
+    },
     }); 
     }else{
         res.status(401).json("Missing Credential")
@@ -80,8 +83,9 @@ app.post("/api/restaurants", async (req, res) => {
 });
 
 //update
-app.put("/api/restaurants/:id", async(req, res) => {
+app.put("/api/restaurants/:id/update", async(req, res) => {
   const { id } = req.params;
+  console.log("update");
   const { name, location, price_range } = req.body;
   try {
       const results = await db.query("update restaurants set name=$1,location=$2, price_range=$3 where id=$4 returning *", [name, location, price_range, id])
