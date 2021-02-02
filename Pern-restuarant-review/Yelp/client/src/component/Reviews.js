@@ -1,6 +1,7 @@
 import React from "react";
 import StarRating from "./StarRating"
-export default function Reviews() {
+export default function Reviews({selectedRestaurant}) {
+  console.log(selectedRestaurant);
   return (
     <div className="row row-cols-3 mb-4">
       <div className="card text-white bg-primary mb-5 mr-3" style={{maxWidth: "18rem"}}>
