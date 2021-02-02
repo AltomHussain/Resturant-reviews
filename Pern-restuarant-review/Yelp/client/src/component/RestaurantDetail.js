@@ -2,7 +2,11 @@ import React, { useContext, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import RestaurantFinder from "../apis/RestaurantFinder";
 import { RestaurantContext } from "../contentex/RestaurantContext";
+
 import AddReview from "./AddReview";
+
+import Reviews from "./Reviews";
+
 import StarRating from "./StarRating";
 
 export default function RestaurantDetail() {
@@ -22,9 +26,15 @@ export default function RestaurantDetail() {
     };
     fetchData();
   }, []);
-//  pass the selectedRestaurant into the Review page to map it
-  return <div>{ selectedRestaurant && <StarRating rating={3.3} /> }
-  <AddReview />
-  </div>;
+
+ 
+  return <div>{ selectedRestaurant && (
+    <>
+    <div className="mt-3">
+      <Reviews />
+                 <AddReview />
+    </div>
+    </>
+  ) }</div>;
 
 }
