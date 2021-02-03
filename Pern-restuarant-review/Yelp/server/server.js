@@ -47,8 +47,8 @@ console.log(review.rows);
         status: "success",
         total: restaurant.rows.length,
         data: {
-          restaurants: restaurant.rows[0],
-          review: review.rows[0],
+          restaurants: restaurant.rows,
+          reviews: review.rows,
         },
       });
     } else {
