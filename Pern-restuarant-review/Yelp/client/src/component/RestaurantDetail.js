@@ -30,7 +30,7 @@ export default function RestaurantDetail() {
       {selectedRestaurant && (
         <>
         {/* show restaurant name as header */}
-        <h1>{selectedRestaurant.restaurants[0].name}</h1>
+        <h1 className="text-center mt-3">{selectedRestaurant.restaurants[0].name}</h1>
           <div className="mt-3">
             <Reviews reviews={selectedRestaurant.reviews}/>
           </div>
