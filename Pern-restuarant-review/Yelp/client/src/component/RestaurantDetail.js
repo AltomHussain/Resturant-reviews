@@ -17,7 +17,7 @@ export default function RestaurantDetail() {
       try {
         const res = await RestaurantFinder.get(`/${id}`);
         setSelectedRestaurant(res.data.data);
-        console.log(res.data.data);
+       
       } catch (error) {
         console.log(error.message);
       }

@@ -144,7 +144,7 @@ app.post("/api/restaurants/:id/addReview", async (req, res) => {
     res.status(200).json({
       status: "success",
       data: {
-        review: newReview.rows[0]
+        review: newReview.rows
       }
     })
     console.log(newReview);
