@@ -40,8 +40,11 @@ app.get("/api/restaurants/:id", async (req, res) => {
       [id]
     );
 
-    const review = await db.query("select * from reviews where restaurant_id= $1", [id]);
-console.log(review.rows);
+    const review = await db.query(
+      "select * from reviews where restaurant_id= $1",
+      [id]
+    );
+    console.log(review.rows);
     if (restaurant.rows.length) {
       res.json({
         status: "success",
@@ -114,7 +117,7 @@ app.put("/api/restaurants/:id/update", async (req, res) => {
 //delete
 app.delete("/api/restaurants/:id", async (req, res) => {
   const { id } = req.params;
-  console.log(id);
+ 
   const results = await db.query(
     "delete from restaurants where id=$1 returning *",
     [id]
@@ -128,7 +131,27 @@ app.delete("/api/restaurants/:id", async (req, res) => {
     res.status(404).json(`The row with id: ${id} does not exist`);
   }
 });
-
+//APost review
+app.post("/api/restaurants/:id/addReview", async (req, res) => {
+  try {
+    const {name, review, rating } = req.body;
+    const { id} = req.params
+    console.log(name, id, review, rating);
+    const newReview = await db.query(
+      "INSERT INTO reviews(name, restaurant_id, review, rating) VALUES($1,$2, $3, $4) returning *",
+      [name, id, review, rating]
+    );
+    res.status(200).json({
+      status: "success",
+      data: {
+        review: newReview.rows
+      }
+    })
+    console.log(newReview);
+  } catch (error) {
+    console.log(error.message);
+  }
+});
 const port = process.env.PORT || 4001;
 app.listen(port, () => {
   console.log(`Server is listening on port ${port}`);

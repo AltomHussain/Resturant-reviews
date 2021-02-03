@@ -3,7 +3,7 @@ import StarRating from "./StarRating";
 export default function Reviews({ reviews }) {
  
   return (
-    <div className="row row-cols-3 mb-4">
+    <div className="row row-cols-3 mb-2">
       {reviews.map((review)=>{
         return(
           <div
