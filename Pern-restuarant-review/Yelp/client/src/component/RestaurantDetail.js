@@ -7,8 +7,6 @@ import AddReview from "./AddReview";
 
 import Reviews from "./Reviews";
 
-import StarRating from "./StarRating";
-
 export default function RestaurantDetail() {
   const { id } = useParams();
   const { selectedRestaurant, setSelectedRestaurant } = useContext(
@@ -19,7 +17,7 @@ export default function RestaurantDetail() {
       try {
         const res = await RestaurantFinder.get(`/${id}`);
         setSelectedRestaurant(res.data.data);
-        console.log(res);
+       
       } catch (error) {
         console.log(error.message);
       }
@@ -27,14 +25,18 @@ export default function RestaurantDetail() {
     fetchData();
   }, []);
 
- 
-  return <div>{ selectedRestaurant && (
-    <>
-    <div className="mt-3">
-      <Reviews />
-                 <AddReview />
+  return (
+    <div>
+      {selectedRestaurant && (
+        <>
+        {/* show restaurant name as header */}
+        <h1 className="text-center mt-3">{selectedRestaurant.restaurants[0].name}</h1>
+          <div className="mt-3">
+            <Reviews reviews={selectedRestaurant.reviews}/>
+          </div>
+            <AddReview />
+        </>
+      )}
     </div>
-    </>
-  ) }</div>;
-
+  );
 }

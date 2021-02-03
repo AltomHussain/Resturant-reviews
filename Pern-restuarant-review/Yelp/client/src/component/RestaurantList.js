@@ -10,6 +10,7 @@ export default function RestaurantList(props) {
       try {
         const res = await RestaurantFinder.get("/");
         setRestaurants(res.data.data.restaurants);
+        console.log(res.data.data);
       } catch (error) {
         console.log(error.message);
       }
