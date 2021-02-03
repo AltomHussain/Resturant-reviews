@@ -7,22 +7,24 @@ export default function AddReview() {
    const location = useLocation();
   const { id } = useParams();
   const history = useHistory()
-console.log(location);
   const [name, setName] = useState("");
   const [review, setReview] = useState("");
-  const [rating, setRating] = useState("");
-  // api/restaurants/:id/addReview
+  const [rating, setRating] = useState("Rating");
+
   const handleSubmitReview = async (e) => {
     e.preventDefault();
     try {
-      const res = await RestaurantFinder.post(`/${id}/addReview`, {
+      await RestaurantFinder.post(`/${id}/addReview`, {
         name,
         review,
         rating,
       });
       //here this code will go back home and come back to refresh to det the data and it is quick
       history.push("/")
-      history.push(location.pathname)
+      history.push(location.pathname);
+      setName("")
+      setReview("")
+      setRating("Rating")
     } catch (error) {}
   };
   return (
