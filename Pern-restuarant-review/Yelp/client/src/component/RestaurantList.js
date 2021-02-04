@@ -2,6 +2,7 @@ import React, { useContext, useEffect } from "react";
 import RestaurantFinder from "../apis/RestaurantFinder";
 import { RestaurantContext } from "../contentex/RestaurantContext";
 import { useHistory } from "react-router-dom";
+import StarRating from "./StarRating";
 export default function RestaurantList(props) {
   let history = useHistory();
   const { restaurants, setRestaurants } = useContext(RestaurantContext);
@@ -43,6 +44,20 @@ export default function RestaurantList(props) {
   const handleRestaurantSelect = (id) => {
     history.push(`/restaurants/${id}`);
   };
+///Render rating Func
+const renderRating = (id, count)=>{
+  // console.log(id);
+  if(!count){
+    return <span className="text-warning">0 reviews</span>
+  }
+  return<>
+  <StarRating rating={id} />
+  <span className="text-warning ml-1">({count})</span>
+  </>
+}
+
+
+
   return (
     <div className="list-group">
       <table className="table table-hover table-dark">
@@ -58,13 +73,13 @@ export default function RestaurantList(props) {
         </thead>
         <tbody>
           {restaurants &&
-            restaurants.map(({ name, location, price_range, id }) => {
+            restaurants.map(({ name, location, price_range, id, count, average_rating }) => {
               return (
                 <tr key={id} onClick={() => handleRestaurantSelect(id)}>
                   <td>{name}</td>
                   <td>{location}</td>
                   <td>{"$".repeat(price_range)}</td>
-                  <td>Review</td>
+                  <td>{renderRating(average_rating , count)}</td>
                   <td>
                     <button
                       className="btn btn-warning"
