@@ -18,12 +18,18 @@ app.use(morgan("dev"));
 //retrieve
 app.get("/api/restaurants", async (req, res) => {
   try {
-    const results = await db.query("select  * from restaurants");
+    // const results = await db.query("select  * from restaurants");
+
+    const restaurantRatingData = await db.query(
+      `select * from restaurants left join (select restaurant_id, count(*), trunc(AVG(rating), 1) as average_rating
+     from reviews group by restaurant_id) reviews on restaurants.id=reviews.restaurant_id;`
+    );
+
     res.status(200).json({
       status: "success",
-      total: results.rows.length,
+      total: restaurantRatingData.rows.length,
       data: {
-        restaurants: results.rows,
+        restaurants: restaurantRatingData.rows,
       },
     });
   } catch (error) {
@@ -36,7 +42,8 @@ app.get("/api/restaurants/:id", async (req, res) => {
   const { id } = req.params;
   try {
     const restaurant = await db.query(
-      "select * from restaurants where id= $1",
+      `select * from restaurants left join (select restaurant_id, count(*), trunc(AVG(rating), 1) as average_rating
+      from reviews group by restaurant_id) reviews on restaurants.id=reviews.restaurant_id where id=$1;`,
       [id]
     );
 
@@ -117,7 +124,7 @@ app.put("/api/restaurants/:id/update", async (req, res) => {
 //delete
 app.delete("/api/restaurants/:id", async (req, res) => {
   const { id } = req.params;
- 
+
   const results = await db.query(
     "delete from restaurants where id=$1 returning *",
     [id]
@@ -134,8 +141,8 @@ app.delete("/api/restaurants/:id", async (req, res) => {
 //APost review
 app.post("/api/restaurants/:id/addReview", async (req, res) => {
   try {
-    const {name, review, rating } = req.body;
-    const { id} = req.params
+    const { name, review, rating } = req.body;
+    const { id } = req.params;
     console.log(name, id, review, rating);
     const newReview = await db.query(
       "INSERT INTO reviews(name, restaurant_id, review, rating) VALUES($1,$2, $3, $4) returning *",
@@ -144,9 +151,9 @@ app.post("/api/restaurants/:id/addReview", async (req, res) => {
     res.status(200).json({
       status: "success",
       data: {
-        review: newReview.rows
-      }
-    })
+        review: newReview.rows,
+      },
+    });
     console.log(newReview);
   } catch (error) {
     console.log(error.message);

@@ -3,7 +3,7 @@ import React from "react";
 export default function StarRating({ rating }) {
   const stars = [];
 
-  for (let i = 1; i <= 4; i++) {
+  for (let i = 1; i <= 5; i++) {
     if (i <= rating) {
       stars.push(<i class="fas fa-star text-warning"></i>);
     }else if(i===Math.ceil(rating) && !Number.isInteger(rating) ){
